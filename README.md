@@ -38,11 +38,10 @@ services:
     build: .
     container_name: everthorn-cicd
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /credentials/gcloud-key.json
       DISCORD_WEBHOOK: https://discord.com/api/webhooks/your-webhook-url
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /path/to/gcloud-key.json:/credentials/gcloud-key.json:ro
+      - /path/to/gcloud-key.json:/google-credentials.json
     restart: unless-stopped
 ```
 
