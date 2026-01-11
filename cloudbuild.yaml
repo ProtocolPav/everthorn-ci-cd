@@ -5,15 +5,15 @@ steps:
       - '-c'
       - |
         docker build \
-        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:$SHORT_SHA \
-        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:latest \
+        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:$SHORT_SHA \
+        -t europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:latest \
         .
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:$SHORT_SHA']
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:$SHORT_SHA']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:latest']
+    args: ['push', 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:latest']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -21,12 +21,12 @@ steps:
       - 'topics'
       - 'publish'
       - 'builds'
-      - '--message={"compose-name": "everthorn-ci-cd", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:$SHORT_SHA"}'
+      - '--message={"compose-name": "everthorn-cicd", "image": "europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:$SHORT_SHA"}'
       - '--attribute=build_id=$BUILD_ID,commit_sha=$SHORT_SHA,branch_name=$BRANCH_NAME'
 
 images:
-  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:$SHORT_SHA'
-  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-ci-cd:latest'
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:$SHORT_SHA'
+  - 'europe-docker.pkg.dev/single-inquiry-391907/everthorn/everthorn-cicd:latest'
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
