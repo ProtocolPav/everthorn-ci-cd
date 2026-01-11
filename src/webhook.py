@@ -20,15 +20,15 @@ def send_webhook(status: str, service: str, image: str, error=None):
 
         if status == "start":
             title = "Deployment Started"
-            color = 0x0000ff  # blue
+            color = int(0x458dff)  # blue
             description = "Found a new update! Starting deployment..."
         elif status == "success":
             title = "Deployment Successful"
-            color = 0x00ff00  # green
-            description = "Deployment completed!"
+            color = int(0x44d059)  # green
+            description = "Your service has been updated to the latest version, as specified by the image."
         elif status == "failure":
             title = "Deployment Failed"
-            color = 0xff0000  # red
+            color = int(0xc90d0d)  # red
             description = f"Deployment failed. Error: {error}"
         else:
             raise ValueError("Invalid status")
@@ -39,8 +39,8 @@ def send_webhook(status: str, service: str, image: str, error=None):
             "color": color,
             "timestamp": timestamp,
             "fields": [
-                {"name": "Service", "value": service, "inline": True},
-                {"name": "Image", "value": image, "inline": True}
+                {"name": "📦 Service", "value": f"```{service}```", "inline": True},
+                {"name": "📘 Image", "value": f"```{image}```", "inline": True}
             ],
             "footer": {"text": "Everthorn CI/CD"}
         }
