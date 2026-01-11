@@ -1,2 +1,3 @@
 google-cloud-pubsub==2.34.0
-requests==2.31.0
+requests==2.32.4
+python-on-whales==0.80.0
