@@ -1,6 +1,9 @@
 import os
 import requests
 import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 def send_webhook(status: str, service: str, image: str, error=None):
     """
@@ -13,7 +16,7 @@ def send_webhook(status: str, service: str, image: str, error=None):
     :return:
     """
     try:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
+        timestamp = datetime.datetime.now().isoformat()
 
         if status == "start":
             title = "Deployment Started"
@@ -34,18 +37,20 @@ def send_webhook(status: str, service: str, image: str, error=None):
             "title": title,
             "description": description,
             "color": color,
+            "timestamp": timestamp,
             "fields": [
                 {"name": "Service", "value": service, "inline": True},
                 {"name": "Image", "value": image, "inline": True}
             ],
-            "footer": {"text": timestamp}
+            "footer": {"text": "Everthorn CI/CD"}
         }
 
         data = {"embeds": [embed]}
         response = requests.post(os.environ["DISCORD_WEBHOOK"], json=data)
+
         if response.status_code == 204:
-            print("✅ Discord notification sent successfully")
+            logger.info("Discord notification sent successfully")
         else:
-            print(f"❌ Failed to send Discord message: {response.status_code}")
+            logger.error(f"Failed to send Discord message: {response.status_code}")
     except Exception as e:
-        print(f"❌ Discord webhook error: {e}")
+        logger.error(f"Discord webhook error: {e}")

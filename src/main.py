@@ -3,6 +3,9 @@ import json
 
 from google.cloud import pubsub
 from docker_callback import callback
+from logging_config import setup_logging
+
+setup_logging()
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "../google-credentials.json"
 
