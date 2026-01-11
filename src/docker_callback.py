@@ -21,6 +21,9 @@ def callback(message):
         print(f"🚀 Starting deployment for: {compose_name}")
         print(f"📦 Image: {image}")
 
+        # Send start notification
+        send_webhook("start", compose_name, image)
+
         # Step 1: Pull the compose service
         print("⬇️  Pulling Docker Compose service...")
         subprocess.run(["sudo", "docker", "compose", "pull", compose_name], check=True)
@@ -34,21 +37,18 @@ def callback(message):
         subprocess.run(["sudo", "docker", "system", "prune", "-f"], check=True)
 
         # Step 4: Send Discord notification
-        success_message = f"🎉 **Deployment Successful!**\n📦 Service: `{compose_name}`\n🖼️ Image: `{image}`\n⏰ Deployment completed successfully!"
-        send_webhook(success_message)
+        send_webhook("success", compose_name, image)
 
         # Acknowledge the message
         message.ack()
         print(f"✅ Message acknowledged: {message.message_id}")
 
     except subprocess.CalledProcessError as e:
-        error_msg = f"❌ **Deployment Failed!**\n📦 Service: `{compose_name}`\n🚨 Error: `{str(e)}`"
-        send_webhook(error_msg)
+        send_webhook("failure", compose_name, image, str(e))
         print(f"❌ Command failed: {e}")
         message.nack()
 
     except Exception as e:
-        error_msg = f"❌ **Deployment Error!**\n📦 Service: `{compose_name}`\n🚨 Error: `{str(e)}`"
-        send_webhook(error_msg)
+        send_webhook("failure", compose_name, image, str(e))
         print(f"❌ Error processing message: {e}")
         message.nack()
