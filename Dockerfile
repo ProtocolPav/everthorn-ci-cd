@@ -1,7 +1,8 @@
 FROM python:3.13-alpine
 
-# Install Docker CLI - Required for python-on-whales
-RUN apk update && apk add --no-cache docker-cli
+RUN apk update && apk add --no-cache \
+    docker-cli \
+    docker-cli-compose
 
 COPY . /everthorn-ci-cd/
 
