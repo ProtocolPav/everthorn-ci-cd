@@ -7,9 +7,13 @@ from logging_config import setup_logging
 
 setup_logging()
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "../google-credentials.json"
+CREDENTIALS_PATH = "../google-credentials.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = CREDENTIALS_PATH
 
-PROJECT_ID = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])["project_id"]
+with open(CREDENTIALS_PATH, 'r') as f:
+    credentials_data = json.load(f)
+    PROJECT_ID = credentials_data["project_id"]
+
 SUBSCRIPTION_NAME = "builds-sub"
 
 subscriber = pubsub.SubscriberClient()
