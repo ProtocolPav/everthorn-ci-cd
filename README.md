@@ -41,11 +41,13 @@ services:
       DISCORD_WEBHOOK: https://discord.com/api/webhooks/your-webhook-url
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /path/to/gcloud-key.json:/google-credentials.json
+      - ./single-inquiry-keyfile.json:/google-credentials.json:ro
+      - ./docker-compose.yml:/everthorn-ci-cd/docker-compose.yml:ro
     restart: unless-stopped
 ```
 
 **⚠️ The Docker socket mount is required for the service to function.**
+**⚠️ You must also mount `docker-compose.yml` as a read-only volume for the service to function.**
 
 ## Usage
 
