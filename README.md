@@ -72,7 +72,11 @@ Send a JSON message to your Pub/Sub topic:
 
 ### Self-Updating
 
-Configure Cloud Build to build new images of `everthorn-cicd` on code changes. Send a deployment message with the CI/CD service's own image to trigger automatic self-updates.
+Configure Cloud Build to build new images of `everthorn-cicd` on code changes. 
+Send a deployment message with the CI/CD service's own image to trigger automatic self-updates.
+
+By default, the `image` and `compose-name` will reference `everthorn-cicd`. 
+Ensure your service is named accordingly in Docker Compose to have self-updating.
 
 ## Environment Variables
 
