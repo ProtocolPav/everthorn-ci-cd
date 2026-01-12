@@ -8,10 +8,7 @@ from logging_config import setup_logging
 
 setup_logging()
 
-CREDENTIALS_PATH = "../single-inquiry-keyfile.json"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = CREDENTIALS_PATH
-
-with open(CREDENTIALS_PATH, 'r') as f:
+with open(os.environ["GOOGLE_APPLICATION_CREDENTIALS"], 'r') as f:
     credentials_data = json.load(f)
     PROJECT_ID = credentials_data["project_id"]
 
