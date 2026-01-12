@@ -2,7 +2,6 @@ import os
 import json
 
 from google.cloud import pubsub
-from python_on_whales import docker
 
 from docker_callback import callback
 from logging_config import setup_logging
@@ -15,12 +14,6 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = CREDENTIALS_PATH
 with open(CREDENTIALS_PATH, 'r') as f:
     credentials_data = json.load(f)
     PROJECT_ID = credentials_data["project_id"]
-
-    docker.login(
-        server='europe-docker.pkg.dev',
-        username='_json_key',
-        password=json.dumps(credentials_data)
-    )
 
 SUBSCRIPTION_NAME = "builds-sub"
 

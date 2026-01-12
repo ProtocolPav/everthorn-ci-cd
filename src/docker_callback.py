@@ -1,8 +1,8 @@
 import json
 import logging
+import subprocess
 
 from webhook import send_webhook
-from python_on_whales import DockerException, docker
 
 logger = logging.getLogger(__name__)
 
@@ -30,13 +30,13 @@ def callback(message):
         send_webhook("start", compose_name, image)
 
         logger.info("Pulling latest Docker image...")
-        docker.compose.pull(compose_name)
+        subprocess.run(["sudo", "docker", "compose", "pull", compose_name], check=True)
 
         logger.info("Restarting Docker Compose service...")
-        docker.compose.up(services=compose_name, detach=True, force_recreate=True)
+        subprocess.run(["sudo", "docker", "compose", "up", compose_name, "-d"], check=True)
 
         logger.info("Pruning the Docker system...")
-        docker.system.prune()
+        subprocess.run(["sudo", "docker", "system", "prune", "-f"], check=True)
 
         send_webhook("success", compose_name, image)
 
@@ -44,8 +44,8 @@ def callback(message):
         message.ack()
         logger.info(f"Message acknowledged: {message.message_id}")
 
-    except DockerException as e:
-        error_message = f"Docker Exit Code {e.return_code} while running {e.docker_command}. Error: {e.stderr}"
+    except subprocess.CalledProcessError as e:
+        error_message = f"Error: {e}"
 
         send_webhook("failure", compose_name, image, error_message)
         logger.error(error_message)
