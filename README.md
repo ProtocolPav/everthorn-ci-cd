@@ -31,7 +31,7 @@ Create a webhook in your Discord server settings.
 Create a `docker-compose.yml` file:
 
 ```yaml
-version: '3.8'
+name: your-compose-project
 
 services:
   everthorn-cicd:
@@ -48,6 +48,7 @@ services:
 
 **⚠️ The Docker socket mount is required for the service to function.**
 **⚠️ You must also mount `docker-compose.yml` as a read-only volume for the service to function.**
+**⚠️ Having a `name` set for your compose file is important for the service to function.**
 
 ## Usage
 

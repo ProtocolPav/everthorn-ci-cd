@@ -33,7 +33,7 @@ def callback(message):
         docker.compose.pull(compose_name)
 
         logger.info("Restarting Docker Compose service...")
-        docker.compose.up(services=compose_name, detach=True, recreate=True)
+        docker.compose.up(services=compose_name, detach=True, force_recreate=True)
 
         logger.info("Pruning the Docker system...")
         docker.system.prune()
