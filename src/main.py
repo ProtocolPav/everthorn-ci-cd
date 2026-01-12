@@ -8,7 +8,7 @@ from logging_config import setup_logging
 
 setup_logging()
 
-CREDENTIALS_PATH = "../single-inquiry-keyfile.json"
+CREDENTIALS_PATH = "/home/ubuntu/everthorn/single-inquiry-keyfile.json"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = CREDENTIALS_PATH
 
 with open(CREDENTIALS_PATH, 'r') as f:
